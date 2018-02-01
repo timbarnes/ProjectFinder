@@ -1,10 +1,11 @@
 import os
 import subprocess
+import shlex
 import tkinter
 from tkinter import ttk
 
-PROJECT_BASE = 'Test/'
-PHOTO_BASE = 'Test/'
+PROJECT_BASE = './Test/'
+PHOTO_BASE = './Test/'
 
 PROJECT_LIST = os.listdir(PROJECT_BASE)
 PHOTO_LIST = os.listdir(PHOTO_BASE)
@@ -74,8 +75,10 @@ class Application(ttk.Frame):
         """
         Create a window to view the folder matched.
         """
-        print("Launching folder {}...".format(match))
-        subprocess.call('open "{}"'.format(os.path.join(PROJECT_BASE, match)))
+        full_path = shlex.quote(os.path.join(PROJECT_BASE, match))
+        print(os.getcwd())
+        print("Launching folder <{}>".format(full_path))
+        subprocess.call('open {}'.format(full_path))
 
     @staticmethod
     def findMatches(f_list, search_str):
