@@ -1,6 +1,5 @@
 import os
 import subprocess
-import shlex
 import tkinter
 from tkinter import ttk
 
@@ -33,7 +32,6 @@ class Application(ttk.Frame):
     """
     Build the application window and initialize a project
     """
-    # Initialize an empty project
 
     def __init__(self, master=None):
         # Create the main frame
