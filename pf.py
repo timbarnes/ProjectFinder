@@ -3,8 +3,8 @@ import subprocess
 import tkinter
 from tkinter import ttk
 
-PROJECT_BASE = './Test/'
-PHOTO_BASE = './Test/'
+PROJECT_BASE = 'P:\\'
+PHOTO_BASE = 'G:\\PHOTOS of our PROJECTS\\'
 
 PROJECT_LIST = os.listdir(PROJECT_BASE)
 PHOTO_LIST = os.listdir(PHOTO_BASE)
@@ -56,6 +56,7 @@ class Application(ttk.Frame):
 
         self.search_string = ttk.Entry(self.query_frame, width=25,
                                        textvariable=self.search_string)
+        self.search_string.focus()
         self.search_string.bind('<Return>', self.onEnter)
         self.search_string.grid(row=1, column=0)
 
@@ -82,7 +83,8 @@ class Application(ttk.Frame):
         Create a window to view the folder matched.
         """
         full_path = os.path.join(PROJECT_BASE, match)
-        subprocess.run(["open", full_path])
+        print(full_path)
+        subprocess.Popen(['explorer', full_path])
 
     @staticmethod
     def findMatches(f_list, search_str):
@@ -101,7 +103,7 @@ class Application(ttk.Frame):
         i = 0
         for match in matches:
             widget_list.append(ttk.Button(
-                frame, text=match, width=25,
+                frame, text=match, width=50,
                 command=lambda: self.launchWindow(match)))
             widget_list[-1].grid(row=i, column=0)
             i += 1
@@ -113,6 +115,8 @@ class Application(ttk.Frame):
         """
         for w in self.found_widgets:
             w.destroy()
+        self.photo_frame.grid()
+        self.project_frame.grid()
 
     def go_search(self):
         """
@@ -125,10 +129,8 @@ class Application(ttk.Frame):
             pr_list = self.findMatches(PROJECT_LIST, ss)
             ph_list = self.findMatches(PHOTO_LIST, ss)
             self.destroyWidgets()  # Delete any previous results
-            if pr_list:
-                self.showResults(self.project_frame, pr_list)
-            if ph_list:
-                self.showResults(self.photo_frame, pr_list)
+            self.showResults(self.project_frame, pr_list)
+            self.showResults(self.photo_frame, ph_list)
 
 
 app = Application()
