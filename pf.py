@@ -2,6 +2,7 @@ import os
 import sys
 import platform
 import subprocess
+import functools
 import tkinter
 from tkinter import ttk
 
@@ -106,7 +107,8 @@ class Application(ttk.Frame):
         for match in matches:
             widget_list.append(ttk.Button(
                 frame, text=match, width=50,
-                command=lambda: self.launchWindow(match)))
+                command=functools.partial(self.launchWindow, match)))
+            # command=lambda: self.launchWindow(match)))
             widget_list[-1].grid(row=i, column=0)
             i += 1
         self.found_widgets += widget_list  # Save the created widgets
