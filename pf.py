@@ -1,5 +1,6 @@
 import os
 import sys
+import platform
 import subprocess
 import tkinter
 from tkinter import ttk
@@ -79,7 +80,13 @@ class Application(ttk.Frame):
         """
         full_path = os.path.join(PROJECT_BASE, match)
         print(full_path)
-        subprocess.Popen(['explorer', full_path])
+        system = platform.system()
+        if system == 'Windows':
+            subprocess.Popen(['explorer', full_path])
+        elif system == 'Darwin':
+            subprocess.Popen(['open', full_path])
+        else:
+            error('Unsupported platform: {}'.format(system))
 
     @staticmethod
     def findMatches(f_list, search_str):
