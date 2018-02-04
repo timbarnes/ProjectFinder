@@ -1,13 +1,8 @@
 import os
+import sys
 import subprocess
 import tkinter
 from tkinter import ttk
-
-PROJECT_BASE = 'P:\\'
-PHOTO_BASE = 'G:\\PHOTOS of our PROJECTS\\'
-
-PROJECT_LIST = os.listdir(PROJECT_BASE)
-PHOTO_LIST = os.listdir(PHOTO_BASE)
 
 
 def popup(message):
@@ -133,6 +128,26 @@ class Application(ttk.Frame):
             self.showResults(self.photo_frame, ph_list)
 
 
-app = Application()
-app.master.title('Project Finder')
-app.mainloop()
+def main():
+    """
+    Top level function processes arguments and runs the app.
+    """
+    global PROJECT_BASE
+    global PHOTO_BASE
+    global PROJECT_LIST
+    global PHOTO_LIST
+    try:
+        PROJECT_BASE = sys.argv[1]
+        PHOTO_BASE = sys.argv[2]
+        PROJECT_LIST = os.listdir(PROJECT_BASE)
+        PHOTO_LIST = os.listdir(PHOTO_BASE)
+        # Create and run the application object
+        app = Application()
+        app.master.title('Project Finder')
+        app.mainloop()
+    except IndexError:
+        error("Usage: python pf.py <folder1> <folder2>")
+
+
+if __name__ == '__main__':
+    main()
